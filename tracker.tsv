@@ -1,0 +1,12 @@
+run_id	timestamp	mode	query	result_count	top_result	score	decision	notes
+a3445c36	2026-05-28T20:41:41.438Z	discover	ML	15	Unsupervised Morphological Characterization of Gravitationa…	3.9	shortlisted: Unsupervised Morphological Ch…, Disentangling Adversarial Pro…, Revisiting ML Training under …	15 fetched, 15 new, 3 shortlisted
+f3ad7b7d	2026-05-29T08:51:20.685Z	compare	3 reviews	6			compared	2 contradictions, 6 underexplored directions
+50016634	2026-05-29T08:51:20.688Z	litreview	3 papers analyzed	3	Revisiting ML Training under Fully Homomorphic Encryption: …		reviewed	3 contexts built, 0 with PDF, 3 reviews saved
+9c48c7d8	2026-05-29T14:27:06.023Z	gaps	ML	7	GAP-001		priority	gap_identified: technology_gap | Frozen DINOv2 embeddings have not been applied to non-gravitational-wave scientific spectrograms
+90cb133d	2026-05-29T14:27:06.024Z	gaps	ML	7	GAP-002		identified	gap_identified: evaluation_gap | APD jailbreak defense lacks named datasets, baselines, and reproducible evaluation
+6a557fa4	2026-05-29T14:27:06.025Z	gaps	ML	7	GAP-003		identified	gap_identified: methodology_gap | H1 vs L1 embedding stability gap under ablation is unexplained
+803d0d42	2026-05-29T14:27:06.026Z	gaps	ML	7	GAP-004		identified	gap_identified: coverage_gap | No empirical small-scale validation of FHE+DP convergence theory
+9432384a	2026-05-29T14:27:06.027Z	gaps	ML	7	GAP-005		identified	gap_identified: contradiction_gap | Field disagrees on whether reproducibility artifacts are required for SOTA claims
+49cddd70	2026-05-29T14:27:06.027Z	gaps	ML	7	GAP-006		identified	gap_identified: methodology_gap | Principled defenses for LLMs lack theoretical guarantees pairing empirical claims with proofs
+647c4c32	2026-05-29T14:27:06.028Z	gaps	ML	7	GAP-007		identified	gap_identified: evaluation_gap | LIGO null-result pipeline has not been stress-tested with synthetic injected novel glitches
+2da2df65	2026-05-29T14:32:34.052Z	ideate	GAP-003	3	A General Detector-Robustness Diagnostic Framework for Pret…		selected: IDEA-003	stage: ideating | gap: GAP-003 | difficulty: advanced

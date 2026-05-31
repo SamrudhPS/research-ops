@@ -1,0 +1,4 @@
+researcher.yml
+data/
+node_modules/
+*.log

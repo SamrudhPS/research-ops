@@ -1,0 +1,129 @@
+# researcher.example.yml — copy this to researcher.yml and fill in your details.
+# You can also run: node src/index.js onboard
+# and the tool will build this file interactively.
+#
+# Every field that affects recommendations is documented below.
+# Fields marked (optional) can be left blank.
+
+# ---------------------------------------------------------------------------
+# Identity
+# ---------------------------------------------------------------------------
+
+profile:
+  # Your full name. Used in output headers and saved concept note filenames.
+  name: Alex Chen
+
+  # (optional) Your email address. Reserved for future notification hooks.
+  email: alex.chen@university.edu
+
+  # (optional) One sentence on your overall research direction.
+  # This is shown at the top of every mode's output.
+  north_star_summary: >
+    Building efficient transformer models that run on edge devices
+    without sacrificing accuracy on standard NLP benchmarks.
+
+# ---------------------------------------------------------------------------
+# Domain — where you work
+# ---------------------------------------------------------------------------
+
+domain:
+  # Your primary research field. Used as the anchor for all paper searches.
+  # Examples: "Machine Learning", "Computer Vision", "Robotics", "Systems"
+  primary: Machine Learning
+
+  # Sub-areas within your primary field.
+  # These narrow the paper search and gap identification.
+  sub_areas:
+    - Natural Language Processing
+    - Model Compression
+    - Efficient Inference
+
+# ---------------------------------------------------------------------------
+# Skills — what you can do right now
+# ---------------------------------------------------------------------------
+
+skills:
+  # Your overall research experience level.
+  # beginner    → first research project, limited paper-reading experience
+  # intermediate → have completed at least one research project or course project
+  # advanced    → published or nearly-published; can critique methodology independently
+  level: intermediate
+
+  # Programming languages and frameworks you use regularly.
+  # List only what you can use without Googling the basics.
+  programming:
+    - Python
+    - Bash
+
+  # Research tools, ML frameworks, and platforms you have hands-on experience with.
+  # This gates which ideas are proposed — don't list tools you've only heard of.
+  tools:
+    - PyTorch
+    - HuggingFace Transformers
+    - scikit-learn
+    - Weights & Biases
+    - Jupyter Notebooks
+
+  # Your comfort level with the math used in ML research papers.
+  # low    → comfortable with basic algebra; struggle with proofs
+  # medium → can follow derivations; understand gradient descent, probability basics
+  # high   → comfortable with optimization theory, measure theory, linear algebra proofs
+  math_comfort: medium
+
+# ---------------------------------------------------------------------------
+# Constraints — what limits your work
+# ---------------------------------------------------------------------------
+
+constraints:
+  # How many hours per week you can realistically dedicate to research.
+  # This gates scope estimates — be honest, not optimistic.
+  hours_per_week: 10
+
+  # Your compute access level. This is a hard filter.
+  # laptop              → standard laptop CPU; no GPU, or minimal GPU (e.g., MPS on M-series)
+  # university_cluster  → access to your institution's GPU cluster
+  # cloud_credits       → paid cloud GPU credits (AWS, GCP, Colab Pro, etc.)
+  compute: laptop
+
+  # What datasets you can access.
+  # none              → no external dataset access
+  # kaggle            → can download from Kaggle
+  # university_library → institutional access to licensed datasets (e.g., LDC, ELRA)
+  # open_access_only  → publicly available datasets only (HuggingFace Hub, UCI, etc.)
+  dataset_access: open_access_only
+
+# ---------------------------------------------------------------------------
+# Goals — what you are trying to achieve
+# ---------------------------------------------------------------------------
+
+goals:
+  # Your primary research goal. Shapes scope and framing of all outputs.
+  # conference_paper → aiming for a peer-reviewed venue (workshop or main track)
+  # thesis_chapter   → building toward a thesis contribution
+  # survey           → mapping a field systematically
+  # replication      → reproducing and evaluating existing work
+  # learning         → building understanding without a publication deadline
+  north_star: conference_paper
+
+  # One sentence on why you are doing this research.
+  # Used to personalize recommendations and calibrate ambition level.
+  purpose: >
+    I want to publish a workshop paper at a top NLP venue this year
+    as part of my Master's thesis preparation.
+
+  # Topics you are actively interested in exploring.
+  # These seed the discover and litreview paper searches.
+  interests:
+    - efficient transformers
+    - model compression
+    - knowledge distillation
+    - quantization for edge deployment
+
+# ---------------------------------------------------------------------------
+# Status — managed automatically by Research-Ops
+# Do not edit these fields manually.
+# ---------------------------------------------------------------------------
+
+status:
+  onboarded_at: "2025-01-15"
+  last_updated: "2025-01-15"

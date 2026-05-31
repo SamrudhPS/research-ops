@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch(*)",
+      "WebFetch(*)",
+      "Read(researcher.yml)",
+      "Read(profiles/**)",
+      "Read(outputs/**)",
+      "Write(outputs/**)",
+      "Bash(mkdir -p outputs/*)"
+    ]
+  }
+}

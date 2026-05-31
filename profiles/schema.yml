@@ -1,0 +1,80 @@
+# profiles/schema.yml
+# Field reference for researcher.yml.
+# This is documentation — not a config file.
+
+fields:
+  researcher.name:
+    type: string
+    required: true
+
+  researcher.level:
+    type: enum
+    values: [undergrad, grad-ms, grad-phd, postdoc, professional]
+    required: true
+    effect: "Used to calibrate the difficulty and depth of gap recommendations."
+
+  researcher.institution:
+    type: string
+    required: false
+
+  skills.*.name:
+    type: string
+    required: true
+
+  skills.*.level:
+    type: enum
+    values: [beginner, intermediate, advanced, expert]
+    required: true
+    effect: |
+      beginner     — aware of the concept, limited hands-on practice
+      intermediate — can use it independently on structured problems
+      advanced     — can design solutions and debug non-obvious issues
+      expert       — can push the boundary of what the tool/concept can do
+
+  interests.primary:
+    type: list[string]
+    required: true
+    note: "Keep to 1-2 items. This is where modes focus their search effort."
+
+  interests.secondary:
+    type: list[string]
+    required: false
+    note: "Used when primary areas yield few accessible gaps."
+
+  interests.avoid:
+    type: list[string]
+    required: false
+    effect: "HARD FILTER. Topics listed here are excluded from all mode outputs."
+
+  constraints.time_per_week:
+    type: integer
+    unit: hours
+    required: true
+    effect: "Gaps requiring a ramp-up investment incompatible with this budget are excluded or flagged."
+
+  constraints.compute:
+    type: enum
+    values: [laptop, gpu-workstation, cloud-credits, hpc]
+    required: true
+    effect: "Gaps requiring compute beyond this level are excluded or flagged as out-of-reach."
+
+  constraints.goal:
+    type: enum
+    values: [first-paper, thesis-topic, internship-project, side-project]
+    required: true
+    effect: "Shapes the style of recommendations — a 'side-project' goal gets different framing than 'thesis-topic'."
+
+  context.current_project:
+    type: string
+    required: false
+    effect: "Modes use this to avoid suggesting gaps that overlap with ongoing work."
+
+  context.past_projects:
+    type: list[string]
+    required: false
+    effect: "Used to surface adjacent gaps the researcher is already partially equipped for."
+
+  context.advisor:
+    type: string
+    required: false
+    note: "If set, modes may suggest framing gaps as advisor-aligned extensions."
