@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="assets/banner.png" alt="Research-Ops — Cuz nobody wants to read 500 papers" width="100%"/>
+</div>
+
+<br/>
+
 # Research-Ops
 
 > The gap between "I know ML" and "I have a research question" shouldn't take a semester.
