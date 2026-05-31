@@ -1,14 +1,16 @@
+# Research-Ops
+
 <div align="center">
-  <img src="assets/banner.png" alt="Research-Ops — Cuz nobody wants to read 500 papers" width="80%"/>
+  <img src="assets/banner.png" alt="Research-Ops — Cuz nobody wants to read 500 papers" width="800"/>
 </div>
 
 <br/>
 
-# Research-Ops
-
+<p align="center">
 > The gap between "I know ML" and "I have a research question" shouldn't take a semester.
-
-Structured pipeline that turns your skill profile into a scored shortlist of research gaps — with evidence, feasibility ratings, and a concrete first question — in one afternoon.
+</p>
+<br>
+Structured pipeline that turns your skill profile into a scored shortlist of research gaps - with evidence, feasibility ratings, and a concrete first question — in one afternoon.
 
 ![Node ≥ 20](https://img.shields.io/badge/node-%E2%89%A520-brightgreen.svg)
 ![Built with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-blueviolet.svg)
@@ -35,6 +37,27 @@ A seven-step pipeline. Each step feeds the next. You make every decision; Resear
 5. **Gaps** → classifies research gaps by type, severity, and feasibility for you specifically
 6. **Ideate** → turns a selected gap into 3 concrete research ideas, scoped to your constraints
 7. **Tracker** → shows where you are in the pipeline and what to run next
+
+---
+
+## What Research-Ops is NOT
+
+Three things students get wrong before they even install it:
+
+**"It'll just summarize papers for me."**
+Wrong. Summarizers exist. This isn't one. Research-Ops reads papers 
+to find what's broken, missing, or contradicted in them — 
+not to save you the reading.
+
+**"The gap it finds is definitely publishable."**
+No. A gap is a starting point, not a guarantee. 
+Research-Ops finds where the door is. 
+You still have to walk through it and prove something.
+
+**"I don't need to understand my domain."**
+You do. Research-Ops is a force multiplier, not a foundation. 
+If you put in a vague profile, you get vague gaps. 
+Garbage in, garbage out — even with AI in the middle.
 
 ---
 
