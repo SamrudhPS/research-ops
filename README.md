@@ -224,8 +224,4 @@ Research-Ops recommends. You decide. Every command ends at a decision point — 
 - [Papers With Code](https://paperswithcode.com) — method and dataset cross-reference
 - Inspired by [santifer's career-ops](https://github.com/santifer-dev/career-ops)
 
----
 
-## License
-
-MIT
