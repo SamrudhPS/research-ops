@@ -4,7 +4,6 @@
 
 Structured pipeline that turns your skill profile into a scored shortlist of research gaps — with evidence, feasibility ratings, and a concrete first question — in one afternoon.
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node ≥ 20](https://img.shields.io/badge/node-%E2%89%A520-brightgreen.svg)
 ![Built with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-blueviolet.svg)
 ![Stars](https://img.shields.io/github/stars/SamrudhPS/research-ops?style=flat)
