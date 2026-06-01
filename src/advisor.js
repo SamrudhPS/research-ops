@@ -5,14 +5,14 @@ import { createInterface } from 'readline';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { tw, divider, wrapLines } from './utils/terminal.js';
+import { tw, divider, header, wrapLines } from './utils/terminal.js';
 import { appendTracker } from './utils/profile.js';
 
 const ROOT        = join(dirname(fileURLToPath(import.meta.url)), '..');
 const IDEAS_DIR   = join(ROOT, 'data', 'ideas');
 const SKILLS_PATH = join(ROOT, 'skills', 'advisor.md');
 
-const ADVISOR_MODEL = 'claude-opus-4-7';
+const ADVISOR_MODEL = 'claude-opus-4-8';
 
 const FALLBACK_SYSTEM_PROMPT = `\
 You are a senior research advisor with 20 years of experience supervising graduate students
@@ -122,24 +122,37 @@ async function callClaude(client, systemBlock, messages) {
 // Round 1 — First impression
 // ---------------------------------------------------------------------------
 
-function round1UserMessage(idea, gap, profile) {
+function round1UserMessage(idea, gap, profile, student_rq, student_context, student_approach) {
   return `You are reviewing a research proposal from a ${profile.skills.level} student \
 whose north star is ${profile.goals.north_star}.
 
-Idea:
-${JSON.stringify(idea, null, 2)}
+The system suggested this research question:
+${idea.research_question ?? '(none)'}
 
-Original gap:
+But after reading the papers themselves, the student formed their own version:
+STUDENT'S RQ: ${student_rq}
+
+What the student learned from reading the papers:
+${student_context || 'Not provided'}
+
+Student's proposed approach:
+${student_approach || 'Not decided yet'}
+
+Original gap this addresses:
 ${JSON.stringify(gap, null, 2)}
 
-Give your FIRST IMPRESSION in under 200 words. Be direct, be skeptical.
-Identify the single biggest weakness immediately.
+Full idea context:
+${JSON.stringify(idea, null, 2)}
+
+Give your first impression of the STUDENT'S research question — not the system-suggested one. \
+If the student's version is stronger, say so. If it's weaker or less specific, say that directly.
 
 Return ONLY valid JSON:
 {
   "first_impression": "string",
   "biggest_weakness": "string",
-  "initial_verdict": "promising" | "needs_work" | "rethink"
+  "initial_verdict": "promising" | "needs_work" | "rethink",
+  "vs_suggested_rq": "string"
 }`;
 }
 
@@ -167,6 +180,14 @@ function displayRound1(r1) {
 
   const verdictLabel = (r1.initial_verdict ?? '').replace(/_/g, ' ').toUpperCase();
   console.log('\n' + verdictColor.bold(`Initial verdict: ${verdictLabel}`));
+
+  if (r1.vs_suggested_rq) {
+    console.log(chalk.bold('\nVs. suggested RQ:\n'));
+    for (const line of wrapLines(r1.vs_suggested_rq, 2, W - 2)) {
+      console.log(chalk.cyan(line));
+    }
+  }
+
   console.log(divider('═') + '\n');
 }
 
@@ -174,8 +195,9 @@ function displayRound1(r1) {
 // Round 2 — Deep interrogation
 // ---------------------------------------------------------------------------
 
-function round2UserMessage() {
+function round2UserMessage(student_rq) {
   return `Now ask 5 hard questions a thesis committee would ask about this proposal.
+Focus specifically on the student's research question: "${student_rq}"
 These should expose gaps in methodology, novelty claims, evaluation plan, and feasibility.
 
 Return ONLY valid JSON:
@@ -292,7 +314,7 @@ function displayFinalVerdict(r3) {
 // Save helpers
 // ---------------------------------------------------------------------------
 
-function saveAdvisorSession(idea, gap, r1, r2, studentAnswers, r3) {
+function saveAdvisorSession(idea, gap, r1, r2, studentAnswers, r3, student_rq, student_context, student_approach) {
   mkdirSync(IDEAS_DIR, { recursive: true });
 
   const gapId  = gap.gap_id  ?? 'GAP';
@@ -300,13 +322,16 @@ function saveAdvisorSession(idea, gap, r1, r2, studentAnswers, r3) {
   const today  = new Date().toISOString().slice(0, 10);
 
   const session = {
-    gap_id:          gapId,
-    idea_id:         ideaId,
-    advised_at:      today,
-    round1:          r1,
-    round2:          r2,
-    student_answers: studentAnswers,
-    round3:          r3,
+    gap_id:           gapId,
+    idea_id:          ideaId,
+    advised_at:       today,
+    student_rq,
+    student_context:  student_context  || null,
+    student_approach: student_approach || null,
+    round1:           r1,
+    round2:           r2,
+    student_answers:  studentAnswers,
+    round3:           r3,
   };
 
   const filename = `${gapId}_${ideaId}_advisor.json`;
@@ -346,13 +371,50 @@ function updateIdeaFile(idea, gap, r3) {
 // ---------------------------------------------------------------------------
 
 export async function advisorMode(idea, gap, profile) {
-  console.log(chalk.bold.magenta('\n╔══════════════════════════════════╗'));
-  console.log(chalk.bold.magenta('║   ADVISOR SIMULATION — 3 ROUNDS  ║'));
-  console.log(chalk.bold.magenta('╚══════════════════════════════════╝\n'));
+  console.log(divider());
+  console.log(header('ADVISOR SIMULATION'));
+  console.log(divider());
+  console.log();
+  console.log(chalk.dim(`Loaded: ${idea.title ?? idea.idea_id ?? '(untitled)'}`));
+  console.log(chalk.dim(`Gap: ${gap.title ?? gap.gap_id ?? '?'} (${gap.type ?? '?'})`));
+  console.log(chalk.dim(`Suggested RQ: ${idea.research_question ?? '(none)'}`));
+  console.log();
+  console.log(chalk.white(
+`The advisor will interrogate your research question — not the
+suggested one above, but YOUR version of it.
 
-  console.log(chalk.gray(
-    `Simulating a senior advisor reviewing: "${truncate(idea.title ?? '', 60)}"\n`
+Before the session begins, describe your research question in
+your own words. Build on the suggested idea, refine it, or go
+in a different direction based on what you read.
+
+Be specific. Name a method, a dataset, a measurable outcome.
+The more specific your RQ, the more useful the advisor's feedback.`
   ));
+  console.log();
+
+  const { student_rq } = await inquirer.prompt([{
+    type:     'input',
+    name:     'student_rq',
+    message:  'Your research question:',
+    validate: (v) => {
+      if (v.trim().length >= 20) return true;
+      return 'Too short — be more specific. What exactly are you testing?';
+    },
+  }]);
+
+  const { student_context } = await inquirer.prompt([{
+    type:    'input',
+    name:    'student_context',
+    message: 'What did you learn from reading the full papers that changed or confirmed your thinking? (optional, press Enter to skip):',
+  }]);
+
+  const { student_approach } = await inquirer.prompt([{
+    type:    'input',
+    name:    'student_approach',
+    message: 'What is your proposed approach or method? (optional):',
+  }]);
+
+  console.log();
 
   const client      = new Anthropic();
   const systemBlock = [
@@ -366,7 +428,7 @@ export async function advisorMode(idea, gap, profile) {
 
   console.log(chalk.gray('Round 1: first impression...\n'));
 
-  const r1Msg = round1UserMessage(idea, gap, profile);
+  const r1Msg = round1UserMessage(idea, gap, profile, student_rq, student_context, student_approach);
   messages.push({ role: 'user', content: r1Msg });
 
   let r1;
@@ -397,7 +459,7 @@ export async function advisorMode(idea, gap, profile) {
 
   console.log(chalk.gray('\nRound 2: generating hard questions...\n'));
 
-  const r2Msg = round2UserMessage();
+  const r2Msg = round2UserMessage(student_rq);
   messages.push({ role: 'user', content: r2Msg });
 
   let r2;
@@ -446,7 +508,7 @@ export async function advisorMode(idea, gap, profile) {
 
   // ── Save session ──────────────────────────────────────────────────────────
 
-  saveAdvisorSession(idea, gap, r1, r2, studentAnswers, r3);
+  saveAdvisorSession(idea, gap, r1, r2, studentAnswers, r3, student_rq, student_context, student_approach);
 
   // ── Update tracker ────────────────────────────────────────────────────────
 

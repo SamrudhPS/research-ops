@@ -4,7 +4,7 @@ import inquirer from 'inquirer';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { tw, divider, wrapLines } from './utils/terminal.js';
+import { tw, divider, header, wrapLines } from './utils/terminal.js';
 import { readProfile, appendTracker } from './utils/profile.js';
 import { checkFeasibility } from './feasibility.js';
 
@@ -13,7 +13,7 @@ const GAPS_PATH   = join(ROOT, 'data', 'gaps.json');
 const IDEAS_DIR   = join(ROOT, 'data', 'ideas');
 const SKILLS_PATH = join(ROOT, 'skills', 'ideate.md');
 
-const IDEATE_MODEL = 'claude-opus-4-7';
+const IDEATE_MODEL = 'claude-opus-4-8';
 
 const FALLBACK_SYSTEM_PROMPT = `\
 You are a research idea generator helping an engineering student develop concrete,
@@ -498,23 +498,62 @@ export async function runIdeate(gapArg) {
   console.log();
   saveIdeas(selectedIdeas, gap.gap_id);
 
-  // ── Step 9: Advisor simulation ────────────────────────────────────────────
+  // ── Step 9: Reading pause ─────────────────────────────────────────────────
 
-  const { runAdvisor } = await inquirer.prompt([{
-    type:    'input',
-    name:    'runAdvisor',
-    message: 'Run advisor simulation on selected idea? (yes/no):',
-    validate: (v) => ['yes', 'no'].includes(v.trim().toLowerCase()) || 'Enter yes or no',
+  const selectedIdeaId = selectedIdeas[0]?.idea_id ?? 'IDEA-001';
+
+  console.log(divider());
+  console.log(header('BEFORE YOU CONTINUE'));
+  console.log(divider());
+  console.log();
+  console.log(chalk.white(
+`Research-Ops has done its part. Now yours begins.
+
+Before running the advisor simulation, do this:
+
+  1. Open the actual papers that surfaced ${gap.gap_id}
+     Location: data/shortlisted/
+     Read the full methodology and results sections — not just abstracts.
+
+  2. Note what the papers do that the abstracts didn't mention.
+     Write it down somewhere. This is your raw material.
+
+  3. Look at the suggested research question from the idea you selected.
+     Ask yourself: do you agree? what would you change? what did the
+     papers reveal that changes the framing?
+
+  4. Form your own version of the research question.
+     It should be a combination of what Research-Ops suggested
+     and what you personally understood from reading.
+
+  5. When you have your own RQ — come back and run:
+     node src/index.js advisor ${gap.gap_id}
+
+The advisor simulation works best when you bring your own
+synthesis. Not the suggested idea copied verbatim — your version
+of it, after actually reading the papers.`
+  ));
+  console.log();
+  console.log(divider());
+  console.log();
+  console.log(chalk.dim(
+`Tip: Most students need 1-2 days between ideate and advisor.
+That reading period is part of the pipeline even though
+Research-Ops cannot do it for you.`
+  ));
+  console.log();
+  console.log(divider());
+  console.log();
+
+  const { advisorChoice } = await inquirer.prompt([{
+    type:    'list',
+    name:    'advisorChoice',
+    message: 'Are you ready to run the advisor now, or do you want to read first?',
+    choices: [
+      { name: '1. Run advisor now',                                     value: 'now' },
+      { name: '2. Exit and come back later  (your idea is saved)',      value: 'later' },
+    ],
   }]);
-
-  if (runAdvisor.trim().toLowerCase() === 'yes') {
-    try {
-      const { advisorMode } = await import('./advisor.js');
-      await advisorMode(selectedIdeas[0], gap, profile);
-    } catch {
-      console.log(chalk.yellow('\nAdvisor mode not yet available. Build advisor.js to enable it.\n'));
-    }
-  }
 
   // ── Step 10: Update tracker ───────────────────────────────────────────────
 
@@ -530,6 +569,20 @@ export async function runIdeate(gapArg) {
     });
   }
 
-  console.log(chalk.bold.green(`\n${selectedIdeas.length} idea${selectedIdeas.length === 1 ? '' : 's'} saved to data/ideas/\n`));
-  console.log(chalk.gray('Run `node src/index.js tracker` to review your pipeline.\n'));
+  if (advisorChoice === 'later') {
+    console.log();
+    console.log(chalk.green(`Your idea is saved at data/ideas/${gap.gap_id}_${selectedIdeaId}.json`));
+    console.log(chalk.dim(`Run 'node src/index.js advisor ${gap.gap_id}' when you're ready.`));
+    console.log();
+    return;
+  }
+
+  // ── Step 11: Advisor simulation ───────────────────────────────────────────
+
+  try {
+    const { advisorMode } = await import('./advisor.js');
+    await advisorMode(selectedIdeas[0], gap, profile);
+  } catch {
+    console.log(chalk.yellow('\nAdvisor mode not yet available. Build advisor.js to enable it.\n'));
+  }
 }

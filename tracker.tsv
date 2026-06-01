@@ -10,3 +10,12 @@ f3ad7b7d	2026-05-29T08:51:20.685Z	compare	3 reviews	6			compared	2 contradiction
 49cddd70	2026-05-29T14:27:06.027Z	gaps	ML	7	GAP-006		identified	gap_identified: methodology_gap | Principled defenses for LLMs lack theoretical guarantees pairing empirical claims with proofs
 647c4c32	2026-05-29T14:27:06.028Z	gaps	ML	7	GAP-007		identified	gap_identified: evaluation_gap | LIGO null-result pipeline has not been stress-tested with synthetic injected novel glitches
 2da2df65	2026-05-29T14:32:34.052Z	ideate	GAP-003	3	A General Detector-Robustness Diagnostic Framework for Pret…		selected: IDEA-003	stage: ideating | gap: GAP-003 | difficulty: advanced
+7064ae70	2026-06-01T10:13:48.625Z	discover	ML stock market prediction; stock market prediction ML; stock market prediction lightweight multi-face emotion detection; ML	15	An Empirical Study on Implementation of AI & ML in Stock Ma…	4.2	shortlisted: An Empirical Study on Impleme…, Comprehensive Analysis of Mac…, STOCK MARKET PREDICTION VIA M…	15 fetched, 15 new, 3 shortlisted
+39e64346	2026-06-01T11:05:55.092Z	litreview	9 papers analyzed	9	Comprehensive Analysis of Machine and Deep Learning Models …		reviewed	9 contexts built, 0 with PDF, 9 reviews saved
+c119b676	2026-06-01T13:26:06.756Z	gaps	ML	7	GAP-001		priority	gap_identified: contradiction_gap | Neural complexity vs. classical baselines for stock forecasting — direct contradiction unresolved
+87fd150f	2026-06-01T13:26:06.759Z	gaps	ML	7	GAP-002		identified	gap_identified: evaluation_gap | Directional accuracy is never reported in either stock-prediction paper
+a3b4ba71	2026-06-01T13:26:06.760Z	gaps	ML	7	GAP-003		identified	gap_identified: coverage_gap | No reproducible open-source replication harness exists for the corpus's stock-prediction claims
+20e14c66	2026-06-01T13:26:06.760Z	gaps	ML	7	GAP-004		identified	gap_identified: methodology_gap | No paper benchmarks against a naive last-value (random-walk) baseline
+e9cba0ab	2026-06-01T13:26:06.761Z	gaps	ML	7	GAP-005		identified	gap_identified: population_gap | Neither stock paper specifies which market, ticker, or time period was studied
+8d3b9102	2026-06-01T13:26:06.761Z	gaps	ML	7	GAP-006		identified	gap_identified: technology_gap | Modern time-series foundation models (e.g., Chronos, TimesFM, PatchTST) have not been applied in this corpus
+79288348	2026-06-01T13:26:06.762Z	gaps	ML	7	GAP-007		identified	gap_identified: performance_tradeoff_gap | Compute-vs-accuracy tradeoff between simple and neural models is asserted but never measured

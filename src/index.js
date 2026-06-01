@@ -8,6 +8,8 @@ import { runCompare }  from './compare.js';
 import { runGaps }     from './gaps.js';
 import { runIdeate }   from './ideate.js';
 import { runTracker }  from './tracker.js';
+import { runReset }    from './reset.js';
+import { runRemove }   from './remove.js';
 
 // ---------------------------------------------------------------------------
 // Custom help — shown when no command is given
@@ -24,6 +26,8 @@ if (process.argv.length <= 2) {
     ['gaps',      'Extract research gaps from corpus'],
     ['ideate',    'Turn a gap into research ideas'],
     ['tracker',   'View your pipeline status'],
+    ['remove',    'Delete selected shortlisted papers'],
+    ['reset',     'Clear shortlisted papers or the full pipeline'],
   ];
 
   console.log('\n' + chalk.bold('RESEARCH-OPS · Find your research gap'));
@@ -64,7 +68,7 @@ program
 program
   .command('compare')
   .description('Cross-paper methodology comparison')
-  .action(runCompare);
+  .action(() => runCompare());
 
 program
   .command('gaps')
@@ -81,5 +85,15 @@ program
   .command('tracker')
   .description('View your pipeline status')
   .action(runTracker);
+
+program
+  .command('remove')
+  .description('Delete selected shortlisted papers (and their reviews)')
+  .action(runRemove);
+
+program
+  .command('reset')
+  .description('Clear shortlisted papers or the full pipeline (researcher.yml is never touched)')
+  .action(runReset);
 
 program.parse();

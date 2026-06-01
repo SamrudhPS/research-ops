@@ -11,7 +11,7 @@ const SHORTLISTED_DIR = join(ROOT, 'data', 'shortlisted');
 const COMPARISON_PATH = join(ROOT, 'data', 'comparison.json');
 const SKILLS_PATH     = join(ROOT, 'skills', 'advisor.md');
 
-const COMPARE_MODEL = 'claude-opus-4-7';
+const COMPARE_MODEL = 'claude-opus-4-8';
 
 const FALLBACK_SYSTEM_PROMPT = `\
 You are a research synthesis expert helping an engineering student understand how
