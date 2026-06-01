@@ -244,6 +244,14 @@ Research-Ops recommends. You decide. Every command ends at a decision point — 
 
 ---
 
+## What this costs
+
+Claude Code: requires Claude Pro ($20/month) or an Anthropic API key
+API usage: roughly $0.50–2.00 per full pipeline run (5 papers)
+
+Multi-LLM support (including free local models via Ollama) 
+is on the roadmap. Follow the repo for updates.
+
 ## Built on
 
 - [Claude](https://anthropic.com) — agentic reasoning, paper analysis, gap classification
