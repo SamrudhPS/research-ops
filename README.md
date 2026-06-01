@@ -244,6 +244,86 @@ Research-Ops recommends. You decide. Every command ends at a decision point — 
 
 ---
 
+## UPCOMING
+
+Research-Ops is actively being built. Here's what's coming.
+
+### Near-term
+
+- **Multiple pipeline entry points** — right now the pipeline assumes
+  you start from zero. New entry points being added:
+  - *I have a paper I want to extend* → feed one paper, find what it
+    missed
+  - *I have a dataset, no problem yet* → feed a dataset, find what
+    research it enables
+  - *I have a professor's suggestion* → feed a vague topic, sharpen it
+    into a specific gap
+  - *I finished a project, want to research it further* → feed a
+    project description, find the natural next research question
+
+- **Decouple from Claude Code** — right now users need Claude Pro to
+  run Research-Ops. The goal is to make an Anthropic API key the only
+  requirement. Removes the $20/month barrier for students who just want
+  to try it.
+
+- **Multi-LLM support** — plug in OpenAI, Gemini, or a local model via
+  Ollama. Students with no budget run it free on a local model. Students
+  who want the best output use Claude. Your choice, one config line.
+
+- **Demo mode** — run the full pipeline on a pre-cached set of real
+  papers with zero API calls. See exactly what Research-Ops produces
+  before spending anything.
+
+- **Reset and re-run flows** — cleanly restart any stage without
+  corrupting downstream data. Useful when you want to explore a
+  different domain without starting from scratch.
+
+- **npm run doctor improvements** — smarter prerequisite checks,
+  auto-fix suggestions, and API connectivity tests before any pipeline
+  run.
+  
+- **Local web dashboard** — browser-based UI that reads your existing
+  data files and renders your pipeline as a proper interface. Papers as
+  cards, gaps as a filterable table, tracker as a kanban board.
+  Terminal stays the brain. Browser is just for reading.
+
+---
+
+### Long-term
+
+- **New paper sources** — arXiv and Semantic Scholar cover ML well but
+  miss a lot. Adding IEEE Xplore, ACM Digital Library, PubMed, and
+  Papers With Code as first-class sources so Research-Ops works for
+  HCI, systems, and biomedical students too.
+
+- **Collaborative gap validation** — two students working on the same
+  domain can compare their gap reports. See if someone else found the
+  same gap independently. That convergence signal means the gap is real.
+
+- **Progress tracker across sessions** — right now tracker.tsv is a
+  flat log. Long-term it becomes a proper research journal — tracking
+  not just what stage you're on but what decisions you made, what you
+  read, what changed between sessions. A full audit trail from first
+  paper to submitted abstract.
+
+- **Citation network mode** — instead of keyword search, start from one
+  seminal paper and traverse its citation graph forward and backward.
+  Find the papers that matter by following who cites who, not just what
+  matches a query.
+
+- **Fine-tuned gap detection model** — long-term, the anonymous outcome
+  data becomes training signal for a smaller, faster, cheaper model
+  specialized entirely in research gap finding. No more relying on a
+  general-purpose LLM for a very specific task.
+
+---
+
+> Want to contribute to any of these? See
+> [CONTRIBUTING.md](docs/CONTRIBUTING.md) — improving a skill file is
+> the fastest way to start.
+
+---
+
 ## What this costs
 
 Claude Code: requires Claude Pro ($20/month) or an Anthropic API key
